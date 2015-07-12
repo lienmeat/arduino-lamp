@@ -6,9 +6,8 @@
 #define LED_TYPE WS2811
 #define COLOR_ORDER RGB
 
-#define LED_ROWS 10
-
-#define LED_COLS 5
+#define MatrixWidth 5
+#define MatrixHeight 10
 
 const int BUTTON_PIN = 2;
 
@@ -86,8 +85,7 @@ void loop() {
     delay(100);
     digitalWrite(9, HIGH);    
     delay(100);
-    digitalWrite(9, LOW);
-    Serial.println("here");
+    digitalWrite(9, LOW);    
     next_animation = 0;
     animation++;
   }
@@ -210,7 +208,7 @@ void cop_light() {
   CRGB color1 = CRGB::Red;
   CRGB color2 = CRGB::Blue;
   while(!quitAnimation()) {
-    for(int i = 1; i<=LED_COLS; i++) {
+    for(int i = 1; i<=MatrixWidth; i++) {
       if(quitAnimation()) {
         break;
       }
@@ -219,7 +217,7 @@ void cop_light() {
       FastLED.show();
       aDelay(1000 * ANIMATION_SPEED);      
     }    
-    for(int i = 1; i<=LED_COLS; i++) {
+    for(int i = 1; i<=MatrixWidth; i++) {
       if(quitAnimation()) {
         break;
       }
@@ -232,24 +230,27 @@ void cop_light() {
 }
 
 void barber_pole() {
-  //where the animation starts
-  int offset = 0;
+  //where the animation starts  
   CRGB red = CRGB::Red;
   CRGB white = CRGB::White;
+  int offset = 0;  
   while(!quitAnimation()) {
-    //fill with white
-    fill_color(leds, 0, NUM_LEDS-1, white);
-    if(offset > 5) {
+    if(offset >= MatrixWidth) {
       offset = 0;
     }
-    //red on every 6th led (1 per row)
-    for(int i=offset; i<NUM_LEDS; i+=6) {
-      Serial.println(i);
-      leds[i] = red;
+    //fill with white
+    fill_color(leds, 0, NUM_LEDS-1, white);
+    int x = offset;
+    for(int y=0; y<MatrixHeight; y++) {
+      if(x >= MatrixWidth) {
+        x = 0;
+      }
+      leds[XY(x,y)] = red;
+      x++;
     }
-    offset++;
+    offset++;    
     FastLED.show();
-    aDelay(3000 * ANIMATION_SPEED);
+    aDelay(100 * ANIMATION_SPEED);
   }
 }
 
@@ -261,15 +262,21 @@ void fill_color(struct CRGB *leds, int start, int end, const struct CRGB& color)
 }
 
 void fill_row(int row, CRGB color) {
-  int row_end = row*LED_COLS-1;
-  int row_start = row_end-LED_COLS;
+  int row_end = row*MatrixWidth-1;
+  int row_start = row_end-MatrixWidth;
   fill_color(leds, row_start, row_end, color);
 }
 
 void fill_column(int col, CRGB color) {
-  for(int i = 0; i < NUM_LEDS; i+=LED_COLS) {
-    int led = i+col-1;
-    Serial.println(led);
+  for(int i = 0; i < NUM_LEDS; i+=MatrixWidth) {
+    int led = i+col-1;    
     leds[led] = color;    
   }
+}
+
+uint16_t XY( uint8_t x, uint8_t y)
+{
+  uint16_t i;  
+  i = (y * MatrixWidth) + x; 
+  return i;
 }
