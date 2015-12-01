@@ -1,4 +1,8 @@
+#include "esp8266server.h"
 #include "FastLED.h"
+#include "Lamp.h"
+#include "animations.h"
+//here we have included the animations we want to be able to use
 
 #define LED_DATA_PIN 8
 #define NUM_LEDS 50
@@ -9,274 +13,199 @@
 #define MatrixWidth 5
 #define MatrixHeight 10
 
-const int BUTTON_PIN = 2;
+const uint8_t BUTTON_PIN = 2; //purple
 
-volatile int next_animation = 0;
-volatile int on_off = 1;
+volatile boolean next_animation = false;
+volatile boolean on_off = true;
 
 //speed animations should run at
 //larger is SLOWER (should never be 0 though!)
-int ANIMATION_SPEED = 1;
+// int ANIMATION_SPEED = 1;
 
 int animation = 0;
 
+// boolean setup_esp8266 = false;
+
 CRGB leds[NUM_LEDS];
 
-//delay fn which will stop delaying if
-//quitAnimation() is true
-void aDelay(int millis) {  
-  while(!quitAnimation() && millis > 0) {
-    delay(1);
-    millis--;
-  }
-}
+Lamp* lamp;
+
+iLampAnimation* ta;
 
 void switchAnitmation() {
   if(on_off) {
-    digitalWrite(9, HIGH);
-    next_animation = 1;
+    next_animation = true;
   }
 }
 
 void onOffToggle() {
-  digitalWrite(9, LOW);
   //this signifies that the off() function is to take over or end (toggle)
-  on_off = !on_off;  
+  on_off = !on_off;
+  if(on_off) {
+    lamp->turnOn();
+  }
+  else if(on_off == 0) {
+    lamp->turnOff();
+  }
 }
 
 /**
  * Simple way to know to kill the current animation
  * @return int
  */
-bool quitAnimation() {
-  return (!on_off || next_animation);
-}
+// boolean quitAnimation() {
+//   return (!on_off || next_animation);
+// }
 
 
 void setup() {
-  Serial.begin(9600);  
-  pinMode(9, OUTPUT);
-  
-  digitalWrite(9, LOW);
-  
+  //Serial.begin(9600);
+  Serial.begin(115200);
   FastLED.addLeds<LED_TYPE, LED_DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS).setCorrection( TypicalLEDStrip );
-
+  lamp = new Lamp(leds, NUM_LEDS, MatrixWidth);
   //adds hardware interupt to digital pin 2 (interupt 0)
-  attachInterrupt(0, switchAnitmation, RISING);
+  // attachInterrupt(0, switchAnitmation, FALLING);
+ 
+  //go to white animation
+  setAnimation(99);
+  //setup our server
+  esp8266ServerSetup(lamp);
+
   //adds hardware interupt to digital pin 3 (interupt 1)
-  attachInterrupt(1, onOffToggle, RISING);
+  // attachInterrupt(1, serialRecieved, RISING);
 }
+
+
 
 void loop() {
-  if(on_off == 0) {
-    off();    
-    //want to make certain we
-    //go to the white animation
-    //and stay there until a button is pressed
-    animation = 0;
-    next_animation = 0;
-  }
-  else if(next_animation) {    
-    digitalWrite(9, LOW);
-    delay(100);
-    digitalWrite(9, HIGH);
-    delay(100);
-    digitalWrite(9, LOW);
-    delay(100);
-    digitalWrite(9, HIGH);    
-    delay(100);
-    digitalWrite(9, LOW);    
-    next_animation = 0;
+  // if(on_off == 0) {
+  //   off();    
+  //   //want to make certain we
+  //   //go to the white animation
+  //   //and stay there until a button is pressed
+  //   next_animation = 0;
+  // }
+  if(next_animation) {
+    // lamp->fill_color(0, NUM_LEDS-1, CHSV(HUE_AQUA, 255, 85));
+    // lamp->render();
+    // //delay(100);
+    // lamp->fill_color(0, NUM_LEDS-1, CHSV(HUE_AQUA, 255, 0));
+    // lamp->render();
+    // //delay(100);
+    // lamp->fill_color(0, NUM_LEDS-1, CHSV(HUE_AQUA, 255, 85));
+    // lamp->render();
+    // //delay(100);
+    // lamp->fill_color(0, NUM_LEDS-1, CHSV(HUE_AQUA, 255, 0));
+    // lamp->render();
+    //delay(100);
+    next_animation = false;
     animation++;
+    setAnimation(animation);
   }
+  Serial.print("ra: ");
 
-  run_animation();   
-}
-
-void run_animation() {
-
-  switch(animation) {
-    case 0:      
-      white(); //white is always the first animation!
-      break;    
-    case 1:
-      colorWheel();
-      break;
-    case 2:
-      cop_light();      
-      break;
-    case 3:
-      rainbow();
-      break;
-    case 4:
-      barber_pole();
-      break;
-    default:      
-      //default case re-sets the animation to first, re-runs
-      animation = 0;
-      //this happens so soon after the button press
-      //that it's necessary to software de-bounce the button here! (esentially)
-      //@todo: look into if there is a way to prevent this easily.
-      next_animation = 0;
-      run_animation();
-      break;
+  Serial.println(animation);
+  int animation_delay = ta->itterate();
+  // Serial.println(animation_delay);
+  // int animation_delay = 10;
+  int delayed = 0;
+  while(delayed <= animation_delay) {
+    process_request(&urlRouter);
+    delay(1);
+    delayed++;
   }
 }
-
 
 void white() {
-  fill_color(leds, 0, NUM_LEDS-1, CRGB::White);
-  FastLED.show();
-  while(!quitAnimation()) {
-    aDelay(500);
-    //noop, just hang out until next animation...
-  }
+  lamp->fill_color(0, NUM_LEDS-1, CRGB::White);
+  lamp->render();
 }
 
-void off() {  
-  turnoff_animation();
-  while(!on_off) {
-    aDelay(500);
-  }
-  //make cool bootup animation play here
-  turnon_animation();  
-}
+// void off() {  
+//   turnoff_animation();
+//   while(!on_off) {
+//     delay(500);
+//   }
+//   //make cool bootup animation play here
+//   turnon_animation();  
+// }
 
 /**
  * Quick animation that plays once through when turning on 
  */
-void turnon_animation() {
-  for(int i = 0; i<=250; i+=10) {
-    uint8_t brightness = brighten8_video(i);
-    fill_color(leds, 0, NUM_LEDS-1, CRGB(brightness, brightness, brightness));    
-    delay(10);
-    FastLED.show();    
-  }  
-}
+// void turnon_animation() {
+//   for(uint8_t i = 0; i<=250; i+=10) {
+//     uint8_t brightness = brighten8_video(i);
+//     lamp->fill_color(0, NUM_LEDS-1, CRGB(brightness, brightness, brightness));    
+//     delay(10);
+//     lamp->render();
+//   }  
+// }
 
-/**
- * Quick animation that plays once through when turning off 
- */
-void turnoff_animation() {
-  for(int i = 250; i>=0; i-=10) {
-    uint8_t brightness = dim8_video(i);
-    fill_color(leds, 0, NUM_LEDS-1, CRGB(brightness, brightness, brightness));    
-    delay(10);
-    FastLED.show();
+// /**
+//  * Quick animation that plays once through when turning off 
+//  */
+// void turnoff_animation() {
+//   for(uint8_t i = 250; i>=0; i-=10) {
+//     uint8_t brightness = dim8_video(i);
+//     lamp->fill_color(0, NUM_LEDS-1, CRGB(brightness, brightness, brightness));    
+//     delay(10);
+//     lamp->render();
+//   }
+// }
+
+void setAnimation(uint8_t whichanimation) {
+  switch(whichanimation) {
+    case 0:
+      ta = new BarberPole(lamp);
+      break;
+    case 1:
+      ta = new RainbowFill(lamp);
+      break;
+    case 2:
+      ta = new Fire(lamp);
+      break;
+    case 99:
+      //default case re-sets the animation to first, re-runs
+      ta = new iLampAnimation(lamp);
+      white();
+      break;
+    default:
+      setAnimation(0);
+      //set global animation index to 0
+      animation = 0;
+      break;
   }
+  animation = whichanimation;
+  Serial.print("A:");
+  Serial.println(animation);
+  next_animation = false;
 }
 
-void rainbow() {
-  CRGB colors[6] = {CRGB::Red, CRGB::Orange, CRGB::Yellow, CRGB::Green, CRGB::Blue, CRGB::Purple};
-  while(!quitAnimation()) {
-    for(int c = 0; c<6; c++) {
-      for(int i = 0; i<NUM_LEDS; i++) {
-        if(quitAnimation()) {
-          return;
-        }
-        leds[i] = colors[c];        
-      }
-      
-      FastLED.show();
-      aDelay(2000 * ANIMATION_SPEED);
-    }
+String urlRouter(String url) {
+  String resp = "";
+  // Serial.print("UUU:");
+  // Serial.println(url);
+  int anim_at = url.indexOf("/anim/");
+  Serial.print("Anim@: ");
+  Serial.println(anim_at);
+  if(anim_at > -1) {
+    int anim = url.substring(anim_at+6).toInt();
+    setAnimation(anim);
   }
-}
+  int color_at = url.indexOf("/color/");
+  // Serial.print("Color: ");
+  // Serial.println(color_at);
 
-/**
- * HSV color wheel hues 
- */
-void colorWheel() {
-  //color with max brightness, max saturation, 0 hue to start
-  CRGB color = CHSV(0, 255, 255);
-  for(int i = 0; i<256; i++) {
-    if(quitAnimation()) {
-      return;
-    }
-    color.setHue(i);
-    fill_color(leds, 0, NUM_LEDS-1, color);
-    FastLED.show();
-    aDelay(100 * ANIMATION_SPEED);
-    if(i%32 == 0) {
-      //stop for 10 seconds * ANIMATION_SPEED every 32 hues (r o y g b c v p)
-      aDelay(10000 * ANIMATION_SPEED);
-    }
+  if(color_at > -1) {
+    setAnimation(99);
+    //red for now
+    lamp->fill_color(0, lamp->getNumLeds()-1, CRGB::Red);
+    lamp->render();
   }
-}
-
-void cop_light() {
-  CRGB color1 = CRGB::Red;
-  CRGB color2 = CRGB::Blue;
-  while(!quitAnimation()) {
-    for(int i = 1; i<=MatrixWidth; i++) {
-      if(quitAnimation()) {
-        break;
-      }
-      fill_color(leds, 0, NUM_LEDS-1, CRGB::Black);
-      fill_column(i, color1);
-      FastLED.show();
-      aDelay(1000 * ANIMATION_SPEED);      
-    }    
-    for(int i = 1; i<=MatrixWidth; i++) {
-      if(quitAnimation()) {
-        break;
-      }
-      fill_color(leds, 0, NUM_LEDS-1, CRGB::Black);
-      fill_column(i, color2);
-      FastLED.show();
-      aDelay(1000 * ANIMATION_SPEED);      
-    }
-  }
-}
-
-void barber_pole() {
-  //where the animation starts  
-  CRGB red = CRGB::Red;
-  CRGB white = CRGB::White;
-  int offset = 0;  
-  while(!quitAnimation()) {
-    if(offset >= MatrixWidth) {
-      offset = 0;
-    }
-    //fill with white
-    fill_color(leds, 0, NUM_LEDS-1, white);
-    int x = offset;
-    for(int y=0; y<MatrixHeight; y++) {
-      if(x >= MatrixWidth) {
-        x = 0;
-      }
-      leds[XY(x,y)] = red;
-      x++;
-    }
-    offset++;    
-    FastLED.show();
-    aDelay(100 * ANIMATION_SPEED);
-  }
-}
-
-
-void fill_color(struct CRGB *leds, int start, int end, const struct CRGB& color) {
-  for(int i = start; i<=end; i++){
-    leds[i] = color;
-  }
-}
-
-void fill_row(int row, CRGB color) {
-  int row_end = row*MatrixWidth-1;
-  int row_start = row_end-MatrixWidth;
-  fill_color(leds, row_start, row_end, color);
-}
-
-void fill_column(int col, CRGB color) {
-  for(int i = 0; i < NUM_LEDS; i+=MatrixWidth) {
-    int led = i+col-1;    
-    leds[led] = color;    
-  }
-}
-
-uint16_t XY( uint8_t x, uint8_t y)
-{
-  uint16_t i;  
-  i = (y * MatrixWidth) + x; 
-  return i;
+  // animation++;
+  // setAnimation(animation);
+  // resp = "Switched animation to ";
+  resp+=animation;
+  return resp;
 }
