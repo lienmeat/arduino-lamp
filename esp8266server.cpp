@@ -6,8 +6,7 @@
 #define SSID "Stop the loud sex"
 #define PASS "eatyourvegetables"
 
-// #define DST_IP "192.168.2.130" //me
-//#define DST_IP "184.106.153.149" //thingspeak.com
+//startup status LEDS
 byte ESP8266READY = 0;
 byte ESP8266CONNECTED = 1;
 byte ESP8266SERVERSTARTED = 2;
@@ -75,55 +74,6 @@ void startServer() {
 	}
 }
 
-//test to send temp in thinkspeak url format
-// void sendTempTP() {
-// 	String url = "/update?key=XMF0C7RZLP98O6WH&field2=";
-// 	url += (int) voltageToFahrenheit(sensorToVoltage(analogRead(A0)));	
-// 	sendGET(url);
-// 	digitalWrite(GREEN, HIGH);
-// 	delay(15000);
-// 	digitalWrite(GREEN, LOW);
-// }
-
-// void sendGET(String url) {	
-// 	String open = "AT+CIPSTART=\"TCP\",\"";
-// 	open += DST_IP;
-// 	open += "\",80";
-// 	send(open);	
-// 	if(Serial.find("Error")) {
-// 		return;
-// 	}
-// 	String cmd = "GET " + url;
-// 	cmd += "\r\n";
-// 	String prep = "AT+CIPSEND=";
-// 	prep += cmd.length();
-// 	send(prep);
-// 	//sanity	
-// 	delay(100);	
-// 	//we have prepped the server to accept the GET request, send it
-// 	if(Serial.find(">")) {
-// 		//do something...
-// 		Serial.print(cmd);
-// 		return;
-// 	}
-// 	else{
-// 		send("AT+CIPCLOSE");
-// 		delay(1000);
-// 		return;
-// 	}
-// 	delay(2000);
-// 	Serial.find("+IPD");
-// 	while (Serial.available())
-// 	{
-// 		char c = Serial.read();
-// 		Serial.write(c);
-// 		if(c=='\r') {
-// 			Serial.print('\n');
-// 		}
-// 	}
-// 	Serial.println("====");
-// }
-
 boolean WiFiconnected() 
 {
 	if(hasIP()) {
@@ -160,9 +110,7 @@ void debug(String msg) {
 	Serial.println(msg);
 }
 
-/**
- * todo: switch this to use espat commands only
- */
+
 boolean send_response(String message, byte connection) {
 	
 	boolean ret = espat->sendResponse(message, connection);

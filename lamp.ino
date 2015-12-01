@@ -13,18 +13,12 @@
 #define MatrixWidth 5
 #define MatrixHeight 10
 
-const uint8_t BUTTON_PIN = 2; //purple
+const uint8_t BUTTON_PIN = 2; //purple wire
 
 volatile boolean next_animation = false;
 volatile boolean on_off = true;
 
-//speed animations should run at
-//larger is SLOWER (should never be 0 though!)
-// int ANIMATION_SPEED = 1;
-
 int animation = 0;
-
-// boolean setup_esp8266 = false;
 
 CRGB leds[NUM_LEDS];
 
@@ -49,30 +43,18 @@ void onOffToggle() {
   }
 }
 
-/**
- * Simple way to know to kill the current animation
- * @return int
- */
-// boolean quitAnimation() {
-//   return (!on_off || next_animation);
-// }
-
 
 void setup() {
   //Serial.begin(9600);
   Serial.begin(115200);
   FastLED.addLeds<LED_TYPE, LED_DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS).setCorrection( TypicalLEDStrip );
   lamp = new Lamp(leds, NUM_LEDS, MatrixWidth);
-  //adds hardware interupt to digital pin 2 (interupt 0)
-  // attachInterrupt(0, switchAnitmation, FALLING);
- 
   //go to white animation
   setAnimation(99);
   //setup our server
   esp8266ServerSetup(lamp);
 
-  //adds hardware interupt to digital pin 3 (interupt 1)
-  // attachInterrupt(1, serialRecieved, RISING);
+  setAnimation(99);
 }
 
 
@@ -120,39 +102,6 @@ void white() {
   lamp->fill_color(0, NUM_LEDS-1, CRGB::White);
   lamp->render();
 }
-
-// void off() {  
-//   turnoff_animation();
-//   while(!on_off) {
-//     delay(500);
-//   }
-//   //make cool bootup animation play here
-//   turnon_animation();  
-// }
-
-/**
- * Quick animation that plays once through when turning on 
- */
-// void turnon_animation() {
-//   for(uint8_t i = 0; i<=250; i+=10) {
-//     uint8_t brightness = brighten8_video(i);
-//     lamp->fill_color(0, NUM_LEDS-1, CRGB(brightness, brightness, brightness));    
-//     delay(10);
-//     lamp->render();
-//   }  
-// }
-
-// /**
-//  * Quick animation that plays once through when turning off 
-//  */
-// void turnoff_animation() {
-//   for(uint8_t i = 250; i>=0; i-=10) {
-//     uint8_t brightness = dim8_video(i);
-//     lamp->fill_color(0, NUM_LEDS-1, CRGB(brightness, brightness, brightness));    
-//     delay(10);
-//     lamp->render();
-//   }
-// }
 
 void setAnimation(uint8_t whichanimation) {
   switch(whichanimation) {
@@ -203,9 +152,6 @@ String urlRouter(String url) {
     lamp->fill_color(0, lamp->getNumLeds()-1, CRGB::Red);
     lamp->render();
   }
-  // animation++;
-  // setAnimation(animation);
-  // resp = "Switched animation to ";
   resp+=animation;
   return resp;
 }
