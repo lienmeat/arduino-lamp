@@ -50,7 +50,7 @@ void setup() {
   FastLED.addLeds<LED_TYPE, LED_DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS).setCorrection( TypicalLEDStrip );
   lamp = new Lamp(leds, NUM_LEDS, MatrixWidth);
   //go to white animation
-  setAnimation(99);
+  // setAnimation(99);
   //setup our server
   esp8266ServerSetup(lamp);
 
@@ -60,36 +60,13 @@ void setup() {
 
 
 void loop() {
-  // if(on_off == 0) {
-  //   off();    
-  //   //want to make certain we
-  //   //go to the white animation
-  //   //and stay there until a button is pressed
-  //   next_animation = 0;
+  // if(next_animation) {
+  //   next_animation = false;
+  //   animation++;
+  //   setAnimation(animation);
   // }
-  if(next_animation) {
-    // lamp->fill_color(0, NUM_LEDS-1, CHSV(HUE_AQUA, 255, 85));
-    // lamp->render();
-    // //delay(100);
-    // lamp->fill_color(0, NUM_LEDS-1, CHSV(HUE_AQUA, 255, 0));
-    // lamp->render();
-    // //delay(100);
-    // lamp->fill_color(0, NUM_LEDS-1, CHSV(HUE_AQUA, 255, 85));
-    // lamp->render();
-    // //delay(100);
-    // lamp->fill_color(0, NUM_LEDS-1, CHSV(HUE_AQUA, 255, 0));
-    // lamp->render();
-    //delay(100);
-    next_animation = false;
-    animation++;
-    setAnimation(animation);
-  }
-  Serial.print("ra: ");
-
-  Serial.println(animation);
+  //Serial.println(animation);
   int animation_delay = ta->itterate();
-  // Serial.println(animation_delay);
-  // int animation_delay = 10;
   int delayed = 0;
   while(delayed <= animation_delay) {
     process_request(&urlRouter);
@@ -103,16 +80,28 @@ void white() {
   lamp->render();
 }
 
+void black() {
+  lamp->fill_color(0, NUM_LEDS-1, CRGB::Black);
+  lamp->render();
+}
+
 void setAnimation(uint8_t whichanimation) {
+  Serial.print("Setting animation to: ");
+  Serial.println(whichanimation);
   switch(whichanimation) {
     case 0:
-      ta = new BarberPole(lamp);
-      break;
-    case 1:
       ta = new RainbowFill(lamp);
       break;
-    case 2:
+    case 1:
       ta = new Fire(lamp);
+      break;
+    case 2:
+      ta = new BarberPole(lamp);
+      break;
+    case 98:
+      //default case re-sets the animation to first, re-runs
+      ta = new iLampAnimation(lamp);
+      black();
       break;
     case 99:
       //default case re-sets the animation to first, re-runs
@@ -120,32 +109,22 @@ void setAnimation(uint8_t whichanimation) {
       white();
       break;
     default:
-      setAnimation(0);
-      //set global animation index to 0
-      animation = 0;
+      setAnimation(99);
       break;
   }
   animation = whichanimation;
-  Serial.print("A:");
-  Serial.println(animation);
   next_animation = false;
 }
 
 String urlRouter(String url) {
+  Serial.println(url);
   String resp = "";
-  // Serial.print("UUU:");
-  // Serial.println(url);
   int anim_at = url.indexOf("/anim/");
-  Serial.print("Anim@: ");
-  Serial.println(anim_at);
   if(anim_at > -1) {
     int anim = url.substring(anim_at+6).toInt();
     setAnimation(anim);
   }
   int color_at = url.indexOf("/color/");
-  // Serial.print("Color: ");
-  // Serial.println(color_at);
-
   if(color_at > -1) {
     setAnimation(99);
     //red for now

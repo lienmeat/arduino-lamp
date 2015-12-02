@@ -17,7 +17,3 @@ int iLampAnimation::itterate() {
 void iLampAnimation::reset() {
 	//noop, override
 }
-
-void iLampAnimation::interupt(boolean interupted) {
-	this->interupted = interupted;
-}

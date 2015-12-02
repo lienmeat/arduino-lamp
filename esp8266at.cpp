@@ -4,7 +4,7 @@ ESP8266AT::ESP8266AT(int rx, int tx) : SoftwareSerial(rx, tx){ }
 
 void ESP8266AT::send(String cmd) {
 	println(cmd);
-	Serial.println("SENT> " +cmd);
+	// Serial.println("SENT> " +cmd);
 }
 
 void ESP8266AT::reboot() {
@@ -13,7 +13,7 @@ void ESP8266AT::reboot() {
 	//waitForResponse("OK", 20000);
 }
 
-int ESP8266AT::isReady() {
+boolean ESP8266AT::isReady() {
 	send("AT");
 	return inResponse("OK", 1000);
 }
@@ -27,22 +27,22 @@ String ESP8266AT::getAPs() {
 	return "Not Yet implemented";
 }
 
-int ESP8266AT::joinAP(String ssid, String pass) {
+boolean ESP8266AT::joinAP(String ssid, String pass) {
 	send("AT+CWJAP=\"" + ssid + "\",\"" + pass + "\"");
 	if(waitForResponse("WIFI GOT IP", 10000) != "") {
-		return 1;
+		return true;
 	}
-	return 0;
+	return false;
 }
 
-int ESP8266AT::quitAP() {
+boolean ESP8266AT::quitAP() {
 	//todo:
-	return 1;
+	return true;
 }
 
-int ESP8266AT::setAPParams(String ssid, String pass, int channel, String encryption) {
+boolean ESP8266AT::setAPParams(String ssid, String pass, int channel, String encryption) {
 	//todo:
-	return 1;
+	return true;
 }
 
 int ESP8266AT::getWifiMode() {
@@ -51,33 +51,33 @@ int ESP8266AT::getWifiMode() {
 	return 0;
 }
 
-int ESP8266AT::setWifiMode(int mode) {
+boolean ESP8266AT::setWifiMode(int mode) {
 	String cmd="AT+CWMODE=";
 	cmd+=mode;
 	send(cmd);
 	if(waitForResponse("OK", 10000) != "") {
-		return 1;
+		return true;
 	}
-	return 0;
+	return false;
 }
 
-int ESP8266AT::setupConnection(String type, String ip, int port, int id) {
+boolean ESP8266AT::setupConnection(String type, String ip, int port, int id) {
 	//todo:
-	return 0;
+	return true;
 }
 
-int ESP8266AT::setupConnection(String type, String ip, int port) {
+boolean ESP8266AT::setupConnection(String type, String ip, int port) {
 	//todo:
-	return 0;
+	return true;
 }
 
-int ESP8266AT::getCIPMUX() {
+boolean ESP8266AT::getCIPMUX() {
 	String cmd = "AT+CIPMUX";
 	send(cmd);
 	return inResponse("OK", 5000);
 }
 
-int ESP8266AT::setCIPMUX(int mux) {
+boolean ESP8266AT::setCIPMUX(int mux) {
 	String cmd = "AT+CIPMUX=";
 	cmd += mux;
 	send(cmd);
@@ -89,16 +89,16 @@ String ESP8266AT::getConnectionStatus() {
 	return "Not Yet implemented";
 }
 
-int ESP8266AT::setServer(int on, int port) {
+boolean ESP8266AT::setServer(int on, int port) {
 	String cmd = "AT+CIPSERVER=";
 	cmd+=on;
 	cmd+=",";
 	cmd+=port;
 	send(cmd);
 	if(waitForResponse("OK", 20000) != "") {
-		return 1;
+		return true;
 	}
-	return 0;
+	return false;
 }
 
 int ESP8266AT::getServerTimeout() {
@@ -106,9 +106,9 @@ int ESP8266AT::getServerTimeout() {
 	return 0;
 }
 
-int ESP8266AT::setServerTimeout(int timeout) {
+boolean ESP8266AT::setServerTimeout(int timeout) {
 	//todo:
-	return 0;
+	return true;
 }
 
 
@@ -135,17 +135,19 @@ boolean ESP8266AT::sendResponse(String data, byte connection) {
 	cmd += ",";
 	cmd += data.length();
 	send(cmd);
-	String resp = waitForResponse(">", 5000);
-	if(resp != "") {
-		send( data);
-		String resp2 = waitForResponse("SEND OK", 5000);
+	String resp = receive(3000);
+	if(resp.indexOf(">") != -1) {
+		send(data);
+		String resp2 = waitForResponse("SEND OK", 3000);
 		if(resp2 != "") {
 			ret = true;
+			cmd = "AT+CIPCLOSE=";
+			cmd += connection;
+			send(cmd);
 		}
-		String cmd = "AT+CIPCLOSE=";
-		cmd += connection;
-		send(cmd);
-		waitForResponse("OK", 5000);
+	}
+	else if(resp.indexOf("ERROR") != -1) {
+		ret = false;
 	}
 	return ret;
 }
@@ -155,17 +157,17 @@ String ESP8266AT::receive(unsigned long maxWaitTime) {
 	int available = waitUntilAvailable(maxWaitTime);
 	while(this->available()) {
 		response += readString();
-		Serial.println("RECV> " + response);
+		//Serial.println("RECV> " + response);
 	}
 	return response;
 }
 
-int ESP8266AT::inResponse(String find, unsigned long maxWaitTime) {
+boolean ESP8266AT::inResponse(String find, unsigned long maxWaitTime) {
 	String res = receive(maxWaitTime);
 	if(res.indexOf(find) != -1) {
-		return 1;
+		return true;
 	}
-	return 0;
+	return false;
 }
 
 // Waits until data becomes available, or a timeout occurs
@@ -186,6 +188,7 @@ int ESP8266AT::waitUntilAvailable(unsigned long maxWaitTime)
 // Waits until data becomes available, or a timeout occurs
 String ESP8266AT::waitForResponse(String reponse, unsigned long maxWaitTime)
 {
+  String resp;
   unsigned long startTime;
   int c = 0;
   int found = 0;
@@ -193,16 +196,16 @@ String ESP8266AT::waitForResponse(String reponse, unsigned long maxWaitTime)
   do {
 	c = available();
 	if (c) {
-		String resp = readString();
-		Serial.println("RECV> " + resp);
+		resp = readString();
 		if(resp.indexOf(reponse) > -1) {
 			found = 1;
+			// Serial.println("RECV> " + resp);
 			return resp;
 			break;
 		}
 	}
     
   } while(millis() - startTime < maxWaitTime);
-  
+  // Serial.println("RECV> " + resp);
   return "";
 }
