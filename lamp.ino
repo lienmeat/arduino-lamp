@@ -1,5 +1,5 @@
-#include "esp8266server.h"
 #include "FastLED.h"
+#include "esp8266server.h"
 #include "Lamp.h"
 #include "animations.h"
 //here we have included the animations we want to be able to use
@@ -54,7 +54,7 @@ void setup() {
   //setup our server
   esp8266ServerSetup(lamp);
 
-  setAnimation(254);
+  setAnimation(253);
 }
 
 
