@@ -3,7 +3,7 @@
 #include "esp8266at.h"
 #include "FastLED.h"
 #include "Lamp.h"
-#define SSID "Stop the loud sex"
+#define SSID "The Ping in the North"
 #define PASS "eatyourvegetables"
 
 //startup status LEDS

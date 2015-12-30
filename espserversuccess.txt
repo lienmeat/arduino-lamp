@@ -1,0 +1,34 @@
+0,CONNECT
+
++IPD,0,406:GET /?a=RainbowFill HTTP/1.1
+Host: 192.168.2.116
+Connection: keep-alive
+Cache-Control: max-age=0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.86 Safari/537.36
+Accept-Encoding: gzip, deflate, sdch
+Accept-Language: en-US,en;q=0.8
+
+[SEND] AT+CIPSEND=0,2
+
+AT+CIPSEND=0,2
+
+
+OK
+> [SEND] 33
+
+33
+
+busy s...
+
+Recv 2 bytes
+
+SEND OK
+[SEND] AT+CIPCLOSE=0
+
+AT+CIPCLOSE=0
+
+0,CLOSED
+
+OK

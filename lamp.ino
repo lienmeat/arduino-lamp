@@ -10,7 +10,7 @@
 #define LED_TYPE WS2811
 #define COLOR_ORDER RGB
 
-#define MatrixWidth 5
+#define MatrixWidth 4
 #define MatrixHeight 10
 
 const uint8_t BUTTON_PIN = 2; //purple wire
@@ -50,11 +50,11 @@ void setup() {
   FastLED.addLeds<LED_TYPE, LED_DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS).setCorrection( TypicalLEDStrip );
   lamp = new Lamp(leds, NUM_LEDS, MatrixWidth);
   //go to white animation
-  // setAnimation(99);
+  setAnimation(99);
   //setup our server
   esp8266ServerSetup(lamp);
 
-  setAnimation(99);
+  setAnimation(254);
 }
 
 
@@ -98,6 +98,9 @@ void setAnimation(uint8_t whichanimation) {
     case 2:
       ta = new BarberPole(lamp);
       break;
+    // case 3:
+    //   ta = new DebugV(lamp);
+    //   break;
     case 98:
       //default case re-sets the animation to first, re-runs
       ta = new iLampAnimation(lamp);
@@ -107,6 +110,15 @@ void setAnimation(uint8_t whichanimation) {
       //default case re-sets the animation to first, re-runs
       ta = new iLampAnimation(lamp);
       white();
+      break;
+    case 253:
+      ta = new PancakeSort(lamp);
+      break;
+    case 254:
+      ta = new Gradient1(lamp);
+      break;
+    case 255:
+      ta = new Gradient2(lamp);
       break;
     default:
       setAnimation(99);
