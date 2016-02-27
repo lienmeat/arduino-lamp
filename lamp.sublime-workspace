@@ -4,46 +4,6 @@
 		"selected_items":
 		[
 			[
-				"pan",
-				"pancake"
-			],
-			[
-				"render",
-				"renderPancake"
-			],
-			[
-				"bigg",
-				"biggest_index"
-			],
-			[
-				"num",
-				"num_pancakes-1"
-			],
-			[
-				"sort",
-				"sort_pos"
-			],
-			[
-				"int",
-				"interupted"
-			],
-			[
-				"tx",
-				"tx_pin"
-			],
-			[
-				"rx",
-				"rx_pin"
-			],
-			[
-				"ES",
-				"ESP8266READY"
-			],
-			[
-				"fill",
-				"fill_color"
-			],
-			[
 				"Lam",
 				"LampAnimationBase"
 			],
@@ -92,6 +52,10 @@
 				"offset"
 			],
 			[
+				"fill",
+				"fill_column"
+			],
+			[
 				"LED",
 				"LED_COLS"
 			],
@@ -110,6 +74,10 @@
 			[
 				"hu",
 				"hues"
+			],
+			[
+				"num",
+				"num_hues"
 			],
 			[
 				"color",
@@ -271,109 +239,89 @@
 			"file": "lamp.ino",
 			"settings":
 			{
-				"buffer_size": 3012,
+				"buffer_size": 3015,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"contents": "# Smart.js platform\n\n[![Join the chat at https://gitter.im/cesanta/smart.js](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/cesanta/smart.js?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)\n\nSmart.js is a generic, hardware independent, full-stack\nInternet of Things software platform.\nSmart.js solves problems of reliability, scalability, security\nand remote management which are common to all verticals, being it industrial\nautomation, healthcare, automotive, home automation, or other.\n\nTake a look at 2 minute video that shows Smart.js in action:\n\n[![Smart.js in action](https://docs.cesanta.com/images/Smart.js.clip.png)](https://www.youtube.com/watch?v=6DYfGsqQzCg)\n\n# Documentation\n\n- [Smart.js Developer Centre](https://docs.cesanta.com/smartjs) - User Guide and API reference\n\n# Contributions\n\nPeople who have agreed to the\n[Cesanta CLA](https://docs.cesanta.com/contributors_la.shtml)\ncan make contributions. Note that the CLA isn't a copyright\n_assigment_ but rather a copyright _license_.\nYou retain the copyright on your contributions.\n\n# Licensing\n\nSmart.js is released under the commercial and\n[GNU GPL v.2](http://www.gnu.org/licenses/old-licenses/gpl-2.0.html) open\nsource licenses. The GPLv2 open source License does not generally permit\nincorporating this software into non-open source programs.\nFor those customers who do not wish to comply with the GPLv2 open\nsource license requirements,\n[Cesanta](https://www.cesanta.com) offers a full,\nroyalty-free commercial license and professional support\nwithout any of the GPL restrictions.\n",
-			"file": "/home/eric/.cache/.fr-uQxkdV/smart.js-Beta/README.md",
-			"file_size": 1593,
-			"file_write_time": 130910033160000000,
+			"file": "esp8266at.h",
 			"settings":
 			{
-				"buffer_size": 1593,
+				"buffer_size": 1402,
 				"line_ending": "Unix"
-			}
-		},
-		{
-			"contents": "Package Control Messages\n========================\n\nPython Improved\n---------------\n\n  Python Improved v2.1.0\n  ======================\n  \n  Lots of bug fixes in this version, as expected after a new major release. I suppose\n  one of the most user-facing changes is the reversion back to the old style of\n  highlighting raw/regex string literals. `r\"blah\"` will still be scoped as\n  before, with regex highlighting (if any is present). However, you now have the\n  option of declining regex highlighting by using a capital R (`R\"blah\"`) instead.\n  Python doesn't care if the R is in caps or not, it simply treats the string as a\n  raw string literal.\n  \n  Other changes include fixing magic functions (again) so that function calls are\n  properly scoped as `support.function.magic.call` while magic function definitions\n  are `support.function.magic.name`. If you use Neon the highlighting is still\n  identical, for now. I also fixed an edge case where using `cls` as a function call\n  broke highlighting of the arguments (`self` can now be used as well, obviously\n  assuming `__call__` has been implemented in your class). I also got rid of some\n  unnecessary(?) code that wasn't, as far as I could tell, actually doing anything.\n  If something breaks, please tell me. I've also added `tests/test_code.py` which is\n  just a bunch of random snippets for testing. Finally, I've made some changes to the\n  README, mostly updating (or adding) URLS, as well as detailing all of the above.\n  \n  To take full advantage of the extra scopes included in Python Improved, check out\n  the Neon Color Scheme at https://packagecontrol.io/packages/Neon%20Color%20Scheme\n  If you'd rather modify your own color scheme, a list of scopes is included in\n  the README.md on GitHub at https://github.com/MattDMo/PythonImproved#readme\n  \n  If you have any questions, comments, concerns, bugs, or patches, please open an\n  issue or pull request on GitHub and I'll do what I can to help out. You can also\n  email me directly at <mattdmo@pigimal.com> or find me on Twitter at @MattDMo.\n  This is definitely a work in progress, so if you'd like to contribute I'd love\n  to hear from you!\n",
-			"settings":
-			{
-				"buffer_size": 2160,
-				"line_ending": "Unix",
-				"name": "Package Control Messages",
-				"read_only": true,
-				"scratch": true
-			}
-		},
-		{
-			"file": "animations.cpp",
-			"settings":
-			{
-				"buffer_size": 252,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "animations.h",
-			"settings":
-			{
-				"buffer_size": 234,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "Gradient1.h",
-			"settings":
-			{
-				"buffer_size": 607,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "Gradient2.h",
-			"settings":
-			{
-				"buffer_size": 671,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"contents": "h:237\ns:100\nv:17\n\nh:180\ns:100\nv:97\n\n\n211\n157\n\n",
-			"settings":
-			{
-				"buffer_size": 46,
-				"line_ending": "Unix",
-				"name": "h:237"
-			}
-		},
-		{
-			"contents": "Setting animation to: 99\nSetting animation to: 255\nSetting animation to: 99\nSetting animation to: 255\nSetting animation to: 99\nSetting animation to: 255\nSetting animation to: 99\nSetting animation to: 255\nSetting animation to: 99\nSetting animation to: 255\nSetting animation to: 99\nSetting animation to: 254\n",
-			"settings":
-			{
-				"buffer_size": 318,
-				"line_ending": "Unix",
-				"name": "Serial Monitor - /dev/ttyACM1"
 			}
 		}
 	],
 	"build_system": "",
 	"build_system_choices":
 	[
+		[
+			[
+				[
+					"Packages/arduino-cli/arduino-cli.sublime-build",
+					""
+				],
+				[
+					"Packages/arduino-cli/arduino-cli.sublime-build",
+					"just build"
+				],
+				[
+					"Packages/arduino-cli/arduino-cli.sublime-build",
+					"build and upload"
+				]
+			],
+			[
+				"Packages/arduino-cli/arduino-cli.sublime-build",
+				"build and upload"
+			]
+		]
 	],
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 260.0,
-		"last_filter": "ss c",
+		"height": 392.0,
+		"last_filter": "in",
 		"selected_items":
 		[
 			[
-				"ss c",
-				"Set Syntax: C++"
+				"in",
+				"Package Control: Install Package"
 			],
 			[
-				"ssC++",
-				"Set Syntax: C++"
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"brow",
+				"Preferences: Browse Packages"
+			],
+			[
+				"rmo",
+				"Package Control: Remove Package"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"re",
+				"Package Control: Remove Package"
+			],
+			[
+				"packa",
+				"Preferences: Browse Packages"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
 			],
 			[
 				"remove",
 				"Package Control: Remove Package"
 			],
 			[
-				"insta",
-				"Package Control: Install Package"
+				"ssC++",
+				"Set Syntax: C++"
 			],
 			[
 				"ss",
@@ -393,14 +341,6 @@
 			],
 			[
 				"instal",
-				"Package Control: Install Package"
-			],
-			[
-				"ins",
-				"Package Control: Install Package"
-			],
-			[
-				"in",
 				"Package Control: Install Package"
 			],
 			[
@@ -432,8 +372,8 @@
 				"Set Syntax: C++"
 			],
 			[
-				"inst",
-				"Package Control: Install Package"
+				"ss c",
+				"Set Syntax: C++"
 			],
 			[
 				"git",
@@ -448,11 +388,11 @@
 				"Preferences: Browse Packages"
 			]
 		],
-		"width": 365.0
+		"width": 467.0
 	},
 	"console":
 	{
-		"height": 139.0,
+		"height": 165.0,
 		"history":
 		[
 			"/led?params=99",
@@ -474,70 +414,31 @@
 		"side_bar_visible": false,
 		"status_bar_visible": false
 	},
-	"expanded_folders":
-	[
-		"/home/eric/sketchbook/lamp"
-	],
 	"file_history":
 	[
-		"/home/eric/.cache/.fr-ymr2AA/smart.js-Beta/platforms/posix/bin/init.js",
-		"/home/eric/.cache/.fr-HQ4Csx/smart.js-Beta/platforms/posix/bin/test.js",
-		"/home/eric/.cache/.fr-fmjBeb/smart.js-Beta/platforms/esp8266/make.sh",
-		"/home/eric/sketchbook/lamp/RainbowFill.cpp",
-		"/home/eric/sketchbook/lamp/PancakeSort.h",
-		"/home/eric/sketchbook/lamp/esp8266server.cpp",
-		"/home/eric/sketchbook/lamp/animations.h",
-		"/home/eric/sketchbook/lamp/esp8266at.cpp",
-		"/home/eric/sketchbook/lamp/esp8266at.h",
-		"/home/eric/sketchbook/lamp/RainbowFill.h",
-		"/home/eric/sketchbook/lamp/Lamp.h",
-		"/home/eric/sketchbook/lamp/DebugV.h",
-		"/home/eric/sketchbook/lamp/DebugV.cpp",
-		"/home/eric/sketchbook/lamp/iLampAnimation.cpp",
-		"/home/eric/sketchbook/lamp/iLampAnimation.h",
-		"/home/eric/Downloads/ESP8266_Simple-master/ESP8266_Simple.cpp",
-		"/home/eric/Downloads/ESP8266_Simple-master/examples/HTTP_Server/HTTP_Server.ino",
-		"/home/eric/Development/lb_now/www/sites/all/modules/liveballot/return/return.workflow.inc",
-		"/home/eric/Development/lb_now/run_webserver.sh",
-		"/home/eric/Development/lb_now/make.sh",
-		"/home/eric/sketchbook/lamp/esp8266server.h",
-		"/home/eric/sketchbook/karl/karl/barl/barl.ino",
-		"/home/eric/sketchbook/lamp/espserversuccess.txt",
-		"/home/eric/sketchbook/lamp/TestAnimation.h",
-		"/home/eric/sketchbook/lamp/TestAnimation.cpp",
-		"/home/eric/sketchbook/lamp/LampAnimationRunner.cpp",
-		"/home/eric/sketchbook/lamp/Fire.h",
-		"/home/eric/sketchbook/lamp/Fire.cpp",
-		"/home/eric/sketchbook/lamp/BarberPole.h",
-		"/home/eric/sketchbook/lamp/BarberPole.cpp",
-		"/home/eric/Downloads/ESP8266_Simple-master/ESP8266_Serial.cpp",
-		"/usr/share/arduino/libraries/SoftwareSerial/examples/SoftwareSerialExample/SoftwareSerialExample.ino",
-		"/home/eric/sketchbook/lamp/FastLED.h",
-		"/home/eric/sketchbook/iot/aREST.h",
+		"/Users/ericlien/Library/Application Support/Sublime Text 3/Packages/User/Stino/menu/arduino/Main.sublime-menu",
+		"/Users/ericlien/Documents/Arduino/lamp/lamp.ino",
+		"/Users/ericlien/Documents/Arduino/lamp/esp8266at.h",
+		"/Users/ericlien/Documents/Arduino/lamp/esp8266server.cpp",
+		"/Users/ericlien/Documents/Arduino/lamp/esp8266server.h",
+		"/Users/ericlien/Development/docker/dlive/lb3xdev/Dockerfile",
+		"/Users/ericlien/Library/Application Support/Sublime Text 3/Packages/User/Stino-new-stino/package-metadata.json",
+		"/Users/ericlien/Library/Application Support/Sublime Text 3/Packages/Stino-new-stino/stino/pyarduino/arduino_compiler.py",
+		"/Users/ericlien/Library/Application Support/Sublime Text 3/Packages/Arduino-like IDE/app/base.py",
+		"/Users/ericlien/Library/Application Support/Sublime Text 3/Packages/Arduino-like IDE/app/compiler.py",
+		"/Users/ericlien/Library/Application Support/Sublime Text 3/Packages/Arduino-like IDE/Main.sublime-menu",
+		"/Users/ericlien/Library/Application Support/Sublime Text 3/Packages/Arduino-like IDE/stino.global_settings",
+		"/Users/ericlien/Library/Application Support/Sublime Text 3/Packages/Arduino-like IDE/stino.settings",
+		"/Users/ericlien/Library/Application Support/Sublime Text 3/Packages/Arduino-like IDE/compile/arduino_avr.txt",
+		"/Users/ericlien/Documents/Arduino/blardmdkfdfj/blardmdkfdfj.ino",
+		"/Users/ericlien/Documents/Arduino/djkfjdf/djkfjdf.ino",
+		"/Users/ericlien/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/Users/ericlien/Development/LAMP/animations.cpp",
+		"/Users/ericlien/Development/LAMP/lamp.ino",
 		"/home/eric/sketchbook/esp8266/test.ino",
-		"/home/eric/sketchbook/karl/karl/test2/test2.ino",
-		"/home/eric/sketchbook/sketch_dec24a/sketch_dec24a.ino",
-		"/home/eric/sketchbook/iot/iot.ino",
-		"/home/eric/sketchbook/esp8266/arest.ino_um",
-		"/home/eric/sketchbook/lamp/pixeltypes.h",
-		"/home/eric/sketchbook/lamp/controller.h",
-		"/home/eric/sketchbook/lamp/fastspi.h",
-		"/home/eric/sketchbook/lamp/led_sysdefs.h",
-		"/home/eric/sketchbook/lamp/lamputil.cpp",
-		"/home/eric/sketchbook/lamp/lamputil.h",
-		"/home/eric/sketchbook/lamp/examples/Fire2012/Fire2012.ino",
-		"/home/eric/sketchbook/lamp/smartmatrix_t3.h",
-		"/home/eric/sketchbook/lamp/color.h",
-		"/home/eric/sketchbook/lamp/examples/ColorPalette/ColorPalette.ino",
-		"/home/eric/sketchbook/lamp/Lamp.cpp",
-		"/home/eric/sketchbook/lamp/animations.cpp",
-		"/home/eric/sketchbook/lamp/colorutils.cpp",
-		"/home/eric/sketchbook/lamp/FastLED.cpp",
-		"/home/eric/sketchbook/lamp/lamp.ino",
-		"/home/eric/sketchbook/lamp/LampAnimationRunner.h",
-		"/home/eric/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
-		"/home/eric/sketchbook/lamp/clockless_trinket.h",
 		"/home/eric/sketchbook/iot/IoTVariable.h",
+		"/home/eric/sketchbook/iot/iot.ino",
+		"/home/eric/sketchbook/iot/aREST.h",
 		"/home/eric/Development/mysite/iot/urls.py",
 		"/home/eric/Development/mysite/iot/models.py",
 		"/home/eric/Development/mysite/iot/views.py",
@@ -547,6 +448,7 @@
 		"/home/eric/Desktop/showcase/showfile.php",
 		"/home/eric/halfanafro.com/rook/application/controllers/game.php",
 		"/home/eric/Development/mysite/serialcmdproxy py",
+		"/home/eric/sketchbook/lamp/lamp.ino",
 		"/usr/share/arduino/libraries/aREST/examples/Serial/Serial.ino",
 		"/usr/share/arduino/libraries/aREST/README.md",
 		"/usr/share/arduino/libraries/aREST/aREST.h",
@@ -555,12 +457,16 @@
 		"/home/eric/sketchbook/libraries/readme.txt",
 		"/home/eric/sketchbook/karl/karl/iot/iot.ino",
 		"/home/eric/sketchbook/lamp/examples/XYMatrix/XYMatrix.ino",
+		"/home/eric/sketchbook/lamp/smartmatrix_t3.h",
 		"/home/eric/sketchbook/lamp/examples/SmartMatrix/SmartMatrix.ino",
 		"/home/eric/sketchbook/lamp/FastLED/FastLED.h",
+		"/home/eric/sketchbook/lamp/led_sysdefs.h",
 		"/home/eric/sketchbook/lamp/COMMIT_EDITMSG.COMMIT_EDITMSG",
+		"/home/eric/sketchbook/lamp/colorutils.cpp",
 		"/home/eric/sketchbook/lamp/examples/Cylon/Cylon.ino",
 		"/home/eric/sketchbook/lamp/colorutils.h",
 		"/home/eric/sketchbook/lamp/FastLED/FastLED.cpp",
+		"/home/eric/sketchbook/lamp/FastLED.h",
 		"/home/eric/sketchbook/lamp/lib8tion.h",
 		"/home/eric/docker_drupal7/www/dev/sites/default/files/tmp/drupal_debug_bkp.txt",
 		"/home/eric/docker_drupal7/www/dev/sites/default/files/tmp/drupal_debug.txt",
@@ -569,10 +475,13 @@
 		"/home/eric/bin/Crimsonland/README.txt",
 		"/home/eric/sketchbook/lamp/examples/Multiple/MirroringSample/MirroringSample.ino",
 		"/home/eric/sketchbook/lamp/examples/RGBCalibrate/RGBCalibrate.ino",
+		"/home/eric/sketchbook/lamp/examples/Fire2012/Fire2012.ino",
 		"/home/eric/sketchbook/lamp/FastLED/examples/Fire2012WithPalette/Fire2012WithPalette.ino",
 		"/home/eric/sketchbook/lamp/keywords.txt",
+		"/home/eric/sketchbook/lamp/FastLED.cpp",
 		"/home/eric/sketchbook/lamp/colorpalettes.cpp",
 		"/home/eric/sketchbook/karl.ino",
+		"/home/eric/sketchbook/lamp/color.h",
 		"/home/eric/sketchbook/mouse/ps2_mouse.ino",
 		"/home/eric/sketchbook/lamp/FastLED/README.md",
 		"/home/eric/sketchbook/lamp/FastLED-master/examples/Blink/Blink.ino",
@@ -589,6 +498,7 @@
 		"/home/eric/Development/flask_tpwf/models.py",
 		"/home/eric/Development/flask_tpwf/manage.py",
 		"/home/eric/Development/flask_tpwf/flask_tpwf.py",
+		"/home/eric/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
 		"/home/eric/Desktop/test/test.php",
 		"/tmp/Gist.sublime-settings",
 		"/home/eric/.config/sublime-text-3/Packages/User/Gist.sublime-settings",
@@ -607,11 +517,37 @@
 		"/home/eric/Development/flask_tpwf/example/overholt-master/wsgi.py",
 		"/home/eric/Development/flask_tpwf/modules/test/models.py",
 		"/home/eric/Development/flask_tpwf/modules/test/blueprints.py",
-		"/home/eric/Development/flask_tpwf/extentions/testme/__init__.py"
+		"/home/eric/Development/flask_tpwf/extentions/testme/__init__.py",
+		"/home/eric/Development/flask_tpwf/modules/test/controllers.py",
+		"/home/eric/Downloads/conkytransmission.py",
+		"/home/eric/Development/flask_tpwf/modules/testme/__init__.py",
+		"/home/eric/Development/flask_tpwf/modules/__init__.py",
+		"/home/eric/Development/flask_tpwf/modules/test/__init__.py",
+		"/home/eric/Development/flask_tpwf/example/overholt-master/overholt/frontend/__init__.py",
+		"/home/eric/Development/flask_tpwf/example/overholt-master/overholt/__init__.py",
+		"/home/eric/Development/flask_tpwf/modules/test/static/__init__.py",
+		"/home/eric/Development/flask_tpwf/modules/test/templates/__init__.py",
+		"/home/eric/Development/flask_tpwf/modules/test/tests/__init__.py",
+		"/home/eric/Development/flask_tpwf/example/overholt-master/overholt/factory.py",
+		"/home/eric/Development/flask_tpwf/example/overholt-master/overholt/middleware.py",
+		"/home/eric/Development/flask_tpwf/venv/lib/python2.7/site-packages/werkzeug/wsgi.py",
+		"/home/eric/Development/flask_tpwf/conf.cfg",
+		"/home/eric/Development/flask_tpwf/example/overholt-master/alembic/env.py",
+		"/home/eric/Development/flask_tpwf/example/overholt-master/alembic/script.py.mako",
+		"/home/eric/Development/flask_tpwf/static/js/main.js",
+		"/home/eric/Development/flask_tpwf/static/index.html",
+		"/home/eric/.conky/Conky Lienmeat/conky_lienmeat",
+		"/home/eric/.conky/Conky Lienmeat/lienmeat_rings.lua",
+		"/home/eric/.conky/Conky Lienmeat/source.txt",
+		"/home/eric/Development/flask_tpwf/migrations/versions/4b23d9cf3eb_.py",
+		"/home/eric/Development/flask_tpwf/database.py",
+		"/home/eric/.config/sublime-text-3/Packages/Jedi - Python autocompletion/Default.sublime-keymap",
+		"/home/eric/Development/flask_tpwf/lib/uuid.py",
+		"/home/eric/Development/flask_tpwf/lib/__init__.py"
 	],
 	"find":
 	{
-		"height": 31.0
+		"height": 23.0
 	},
 	"find_in_files":
 	{
@@ -627,54 +563,6 @@
 		"case_sensitive": true,
 		"find_history":
 		[
-			"flip(",
-			"flip",
-			"RainbowFill",
-			"animation = 1",
-			"send",
-			"Serial.",
-			"interupt",
-			"voter_workflow",
-			"switchAnitmation",
-			"setAnimation",
-			"next_animation",
-			"quitAnimation",
-			"ANIMATION_SPEED",
-			"URL",
-			"animation",
-			"itterate(",
-			"break",
-			"waitForResponse",
-			"aD",
-			"esp->",
-			"wait",
-			"esp.",
-			"AT",
-			"send",
-			"Serial",
-			"4000",
-			"Serial.print",
-			"Serial",
-			"lamp->setLed(0",
-			"ESP8266READY",
-			"connectWiFi",
-			"CRGB",
-			"crgb",
-			"9",
-			"CHSV",
-			"showLeds",
-			"#",
-			"LampAnimationrun",
-			"getName",
-			"BARBERPOLE_H",
-			"BarberPole",
-			"lamp->reder();",
-			"FastLED.show();",
-			"FastLED.show()",
-			"white(",
-			"TestAnimation",
-			"LampAnimation",
-			"serial",
 			"[],",
 			"functions",
 			"class",
@@ -744,16 +632,6 @@
 		"regex": false,
 		"replace_history":
 		[
-			"DebugV",
-			"espat->",
-			"esp->",
-			"lamp->setLed(ESP8266READY",
-			"ESP8266CONNECTED",
-			"RAINBOWFILL_H",
-			"RainbowFill",
-			"lamp->render();",
-			"lamp->reder();",
-			"iLampAnimation",
 			"MatrixWidth",
 			"rainbow",
 			"module",
@@ -778,7 +656,7 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -787,81 +665,22 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3012,
+						"buffer_size": 3015,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1129,
-								1129
+								407,
+								407
 							]
 						],
 						"settings":
 						{
-							"history_list_is_closing": true,
-							"syntax": "Packages/Arduino-like IDE/Arduino.tmLanguage",
+							"syntax": "Packages/Stino/Arduino.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 510.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "/home/eric/.cache/.fr-uQxkdV/smart.js-Beta/README.md",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1593,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Markdown/Markdown.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2160,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								378,
-								378
-							]
-						],
-						"settings":
-						{
-							"auto_indent": false,
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"tab_width": 2,
-							"word_wrap": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -871,178 +690,33 @@
 					"type": "text"
 				},
 				{
-					"buffer": 3,
-					"file": "animations.cpp",
+					"buffer": 1,
+					"file": "esp8266at.h",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 252,
+						"buffer_size": 1402,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								252,
-								252
+								454,
+								454
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C.tmLanguage"
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "animations.h",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 234,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								210,
-								210
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "Gradient1.h",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 607,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								607,
-								607
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 51.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 8,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "Gradient2.h",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 671,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								542,
-								542
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 102.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 46,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								46,
-								46
-							]
-						],
-						"settings":
-						{
-							"auto_name": "h:237",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
-					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 0,
-			"sheets":
-			[
-				{
-					"buffer": 8,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 318,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								318,
-								318
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 204.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
+					"stack_index": 1,
 					"type": "text"
 				}
 			]
@@ -1050,7 +724,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 21.0
+		"height": 23.0
 	},
 	"input":
 	{
@@ -1065,18 +739,11 @@
 				0,
 				1,
 				1
-			],
-			[
-				1,
-				0,
-				2,
-				1
 			]
 		],
 		"cols":
 		[
 			0.0,
-			0.77551150414,
 			1.0
 		],
 		"rows":
@@ -1086,6 +753,26 @@
 		]
 	},
 	"menu_visible": true,
+	"output.1451370010.773837":
+	{
+		"height": 100.0
+	},
+	"output.1451370036.244899":
+	{
+		"height": 100.0
+	},
+	"output.1451429021.989838":
+	{
+		"height": 100.0
+	},
+	"output.1451494355.324531":
+	{
+		"height": 100.0
+	},
+	"output.1451494376.123681":
+	{
+		"height": 100.0
+	},
 	"output.CppYCM.2":
 	{
 		"height": 0.0
@@ -1098,9 +785,69 @@
 	{
 		"height": 112.0
 	},
-	"output.barl":
+	"output.blardmdkfdfj":
 	{
-		"height": 118.0
+		"height": 100.0
+	},
+	"output.build|/Users/ericlien/Documents/Arduino/lamp|1451370095.417151":
+	{
+		"height": 100.0
+	},
+	"output.build|/Users/ericlien/Documents/Arduino/lamp|1451428862.955431":
+	{
+		"height": 100.0
+	},
+	"output.build|/Users/ericlien/Documents/Arduino/lamp|1451431490.59373":
+	{
+		"height": 100.0
+	},
+	"output.build|/Users/ericlien/Documents/Arduino/lamp|1451432033.075961":
+	{
+		"height": 100.0
+	},
+	"output.build|/Users/ericlien/Documents/Arduino/lamp|1451432064.620702":
+	{
+		"height": 100.0
+	},
+	"output.build|/Users/ericlien/Documents/Arduino/lamp|1451432114.892124":
+	{
+		"height": 100.0
+	},
+	"output.build|/Users/ericlien/Documents/Arduino/lamp|1451460562.497328":
+	{
+		"height": 100.0
+	},
+	"output.build|/Users/ericlien/Documents/Arduino/lamp|1451460672.037336":
+	{
+		"height": 100.0
+	},
+	"output.build|/Users/ericlien/Documents/Arduino/lamp|1451460748.218014":
+	{
+		"height": 100.0
+	},
+	"output.build|/Users/ericlien/Documents/Arduino/lamp|1451461269.289075":
+	{
+		"height": 100.0
+	},
+	"output.build|/Users/ericlien/Documents/Arduino/lamp|1451494563.385445":
+	{
+		"height": 100.0
+	},
+	"output.build|/Users/ericlien/Documents/Arduino/lamp|1451494843.71181":
+	{
+		"height": 100.0
+	},
+	"output.build|/Users/ericlien/Documents/Arduino/lamp|1451496320.833655":
+	{
+		"height": 100.0
+	},
+	"output.build|/Users/ericlien/Documents/Arduino/lamp|1453874088.983501":
+	{
+		"height": 304.0
+	},
+	"output.build|/Users/ericlien/Library/Application Support/Sublime Text 3/Packages/Stino-new-stino/stino/pyarduino|1451432076.574687":
+	{
+		"height": 0.0
 	},
 	"output.exec":
 	{
@@ -1124,7 +871,7 @@
 	},
 	"output.lamp":
 	{
-		"height": 112.0
+		"height": 252.0
 	},
 	"output.seeker":
 	{
@@ -1142,7 +889,7 @@
 	"project": "lamp.sublime-project",
 	"replace":
 	{
-		"height": 56.0
+		"height": 42.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -1151,142 +898,6 @@
 		"last_filter": "",
 		"selected_items":
 		[
-			[
-				"ra",
-				"RainbowFill.cpp"
-			],
-			[
-				"ani",
-				"animations.h"
-			],
-			[
-				"lamp",
-				"Lamp.h"
-			],
-			[
-				"rain",
-				"RainbowFill.cpp"
-			],
-			[
-				"esp",
-				"esp8266server.h"
-			],
-			[
-				"ilamp",
-				"iLampAnimation.cpp"
-			],
-			[
-				"ilam",
-				"iLampAnimation.h"
-			],
-			[
-				"esp8",
-				"esp8266server.h"
-			],
-			[
-				"e",
-				"esp8266at.cpp"
-			],
-			[
-				"test",
-				"TestAnimation.cpp"
-			],
-			[
-				"fire",
-				"Fire.cpp"
-			],
-			[
-				"bar",
-				"BarberPole.cpp"
-			],
-			[
-				"fa",
-				"FastLED.h"
-			],
-			[
-				"fie",
-				"Fire.cpp"
-			],
-			[
-				"te",
-				"TestAnimation.cpp"
-			],
-			[
-				"tes",
-				"TestAnimation.h"
-			],
-			[
-				"",
-				"BarberPole.h"
-			],
-			[
-				"color.h",
-				"color.h"
-			],
-			[
-				"contro",
-				"controller.h"
-			],
-			[
-				"fast",
-				"FastLED.h"
-			],
-			[
-				"lamp.",
-				"Lamp.h"
-			],
-			[
-				"smartmatrix.h",
-				"smartmatrix_t3.h"
-			],
-			[
-				"lamp.c",
-				"Lamp.cpp"
-			],
-			[
-				"lampu",
-				"lamputil.h"
-			],
-			[
-				"lamputil",
-				"lamputil.cpp"
-			],
-			[
-				"color",
-				"colorutils.cpp"
-			],
-			[
-				"an",
-				"animations.cpp"
-			],
-			[
-				"rao",
-				"RainbowFill.cpp"
-			],
-			[
-				"la",
-				"LampAnimationRunner.cpp"
-			],
-			[
-				"fastled",
-				"FastLED.cpp"
-			],
-			[
-				"lam",
-				"LampAnimationRunner.cpp"
-			],
-			[
-				"anim",
-				"animations.h"
-			],
-			[
-				"animations",
-				"animations.cpp"
-			],
-			[
-				"i",
-				"iLampAnimation.h"
-			],
 			[
 				"firens",
 				"application/views/friends_page.php"
@@ -1319,16 +930,12 @@
 	"selected_group": 0,
 	"settings":
 	{
-		"xdebug":
-		{
-			"hide_conflict": false
-		}
 	},
 	"show_minimap": true,
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 174.0,
+	"side_bar_width": 232.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

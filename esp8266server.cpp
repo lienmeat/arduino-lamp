@@ -22,7 +22,7 @@ Lamp* glamp;
 void esp8266ServerSetup(Lamp* lamp)
 {
 	
-	espat = new ESP8266AT(3, 4);
+	espat = new ESP8266AT(4, 3);
 	espat->begin(9600);
 	glamp = lamp;
 	glamp->fill_color(0, ESP8266READY, CRGB::Red);

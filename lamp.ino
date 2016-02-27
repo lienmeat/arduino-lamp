@@ -13,7 +13,7 @@
 #define MatrixWidth 4
 #define MatrixHeight 10
 
-const uint8_t BUTTON_PIN = 2; //purple wire
+//const uint8_t BUTTON_PIN = 2; //purple wire
 
 volatile boolean next_animation = false;
 volatile boolean on_off = true;
@@ -51,10 +51,10 @@ void setup() {
   lamp = new Lamp(leds, NUM_LEDS, MatrixWidth);
   //go to white animation
   setAnimation(99);
-  //setup our server
+//  setup our server
   esp8266ServerSetup(lamp);
 
-  setAnimation(253);
+  setAnimation(0);
 }
 
 
@@ -132,17 +132,48 @@ String urlRouter(String url) {
   Serial.println(url);
   String resp = "";
   int anim_at = url.indexOf("/anim/");
+  int color_at = url.indexOf("/color/");
+  int set_at = url.indexOf("/setindiv/");
+  
   if(anim_at > -1) {
     int anim = url.substring(anim_at+6).toInt();
     setAnimation(anim);
   }
-  int color_at = url.indexOf("/color/");
-  if(color_at > -1) {
+  else if(color_at > -1) {
     setAnimation(99);
-    //red for now
-    lamp->fill_color(0, lamp->getNumLeds()-1, CRGB::Red);
+    CRGB color = parseRGB(url.substring(color_at+7));
+    lamp->fill_color(0, lamp->getNumLeds()-1, color);
     lamp->render();
   }
-  resp+=animation;
+  else if(set_at > -1) {
+    setAnimation(99);
+    //set all leds according to comma separated values, colors are pipe-separated
+    uint8_t led = 0;
+    uint8_t num_leds = lamp->getNumLeds();
+    int  
+    while(led < num_leds) {
+      
+    }
+  }
+  //resp+=animation;
   return resp;
 }
+
+CRGB parseRGB(String color) {
+  uint8_t separators[2] = {};
+  
+  for(uint8_t i = 0; i < 3; i++) {
+    uint8_t offset = 0;
+    if(i > 0) {
+      offset = separators[i-1];
+    }
+    separators[i] = color.indexOf("|", offset);
+  }
+  if(separators[0] && separators[1]) {
+    return CRGB(color.substring(0, separators[0]).toInt(), color.substring(separators[0]+1, separators[1]).toInt(), color.substring(separators[1]+1).toInt());
+  }
+  else{
+    //return black
+    return CRGB(0, 0, 0);
+  }
+} 

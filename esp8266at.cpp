@@ -4,7 +4,7 @@ ESP8266AT::ESP8266AT(int rx, int tx) : SoftwareSerial(rx, tx){ }
 
 void ESP8266AT::send(String cmd) {
 	println(cmd);
-	// Serial.println("SENT> " +cmd);
+	Serial.println("SENT> " +cmd);
 }
 
 void ESP8266AT::reboot() {
@@ -157,7 +157,7 @@ String ESP8266AT::receive(unsigned long maxWaitTime) {
 	int available = waitUntilAvailable(maxWaitTime);
 	while(this->available()) {
 		response += readString();
-		//Serial.println("RECV> " + response);
+		Serial.println("RECV> " + response);
 	}
 	return response;
 }
