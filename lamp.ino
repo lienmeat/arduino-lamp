@@ -1,10 +1,18 @@
 #include "FastLED.h"
-#include "esp8266server.h"
 #include "Lamp.h"
 #include "animations.h"
-//here we have included the animations we want to be able to use
+#include <SoftwareSerial.h>
 
-#define LED_DATA_PIN 8
+//ESP8266
+#define ESP_BAUD 9600
+#define ESPRX_PIN 3
+#define ESPTX_PIN 2
+//comms via software serial
+SoftwareSerial esp(ESPRX_PIN, ESPTX_PIN);
+
+// lamp/LED details
+//led control pin
+#define LED_DATA_PIN 4
 #define NUM_LEDS 50
 //#define BRIGHTNESS  64
 #define LED_TYPE WS2811
@@ -13,63 +21,37 @@
 #define MatrixWidth 4
 #define MatrixHeight 10
 
-//const uint8_t BUTTON_PIN = 2; //purple wire
-
-volatile boolean next_animation = false;
-volatile boolean on_off = true;
-
-int animation = 0;
-
+//Fastled led array
 CRGB leds[NUM_LEDS];
 
+//Class to help control the lamp
 Lamp* lamp;
 
+//lamp animation abstraction
 iLampAnimation* ta;
 
-void switchAnitmation() {
-  if(on_off) {
-    next_animation = true;
-  }
-}
-
-void onOffToggle() {
-  //this signifies that the off() function is to take over or end (toggle)
-  on_off = !on_off;
-  if(on_off) {
-    lamp->turnOn();
-  }
-  else if(on_off == 0) {
-    lamp->turnOff();
-  }
-}
-
-
 void setup() {
-  //Serial.begin(9600);
   Serial.begin(115200);
+  esp.begin(ESP_BAUD);
   FastLED.addLeds<LED_TYPE, LED_DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS).setCorrection( TypicalLEDStrip );
   lamp = new Lamp(leds, NUM_LEDS, MatrixWidth);
   //go to white animation
   setAnimation(99);
-//  setup our server
-  esp8266ServerSetup(lamp);
-
-  setAnimation(0);
 }
 
 
 
 void loop() {
-  // if(next_animation) {
-  //   next_animation = false;
-  //   animation++;
-  //   setAnimation(animation);
-  // }
   //Serial.println(animation);
+  //itterate whatever animation is set
   int animation_delay = ta->itterate();
   int delayed = 0;
+
+  //hack to allow delay between
+  //animation itterations while still being able to process
+  //api commands
   while(delayed <= animation_delay) {
-    process_request(&urlRouter);
+    process_api_request();
     delay(1);
     delayed++;
   }
@@ -98,9 +80,6 @@ void setAnimation(uint8_t whichanimation) {
     case 2:
       ta = new BarberPole(lamp);
       break;
-    // case 3:
-    //   ta = new DebugV(lamp);
-    //   break;
     case 98:
       //default case re-sets the animation to first, re-runs
       ta = new iLampAnimation(lamp);
@@ -124,56 +103,85 @@ void setAnimation(uint8_t whichanimation) {
       setAnimation(99);
       break;
   }
-  animation = whichanimation;
-  next_animation = false;
+}
+
+boolean process_api_request() {
+  if(esp.available()) {
+    String resp = esp.readString();
+//    Serial.print("incoming: ");
+//    Serial.println(resp);
+    urlRouter(resp);
+  }
+  return true;
 }
 
 String urlRouter(String url) {
-  Serial.println(url);
-  String resp = "";
-  int anim_at = url.indexOf("/anim/");
-  int color_at = url.indexOf("/color/");
-  int set_at = url.indexOf("/setindiv/");
-  
-  if(anim_at > -1) {
-    int anim = url.substring(anim_at+6).toInt();
-    setAnimation(anim);
-  }
-  else if(color_at > -1) {
-    setAnimation(99);
-    CRGB color = parseRGB(url.substring(color_at+7));
-    lamp->fill_color(0, lamp->getNumLeds()-1, color);
-    lamp->render();
-  }
-  else if(set_at > -1) {
-    setAnimation(99);
-    //set all leds according to comma separated values, colors are pipe-separated
-    uint8_t led = 0;
-    uint8_t num_leds = lamp->getNumLeds();
-    int  
-    while(led < num_leds) {
-      
+//  Serial.print("url:" );
+//  Serial.println(url);
+  String resp = "OK";
+  //all api endpoints start with /lamp/
+  if(url.indexOf("/lamp/") > -1) {
+    int anim_at = url.indexOf("/lamp/anim/");
+    int color_at = url.indexOf("/lamp/color/");
+    int set_at = url.indexOf("/lamp/setindiv/");
+
+    //switch to an animation
+    if(anim_at > -1) {
+      int anim = url.substring(anim_at+11).toInt();
+      setAnimation(anim);
+    }
+    //fill with a color
+    else if(color_at > -1) {
+      String ct = url.substring(color_at+12);
+//      Serial.print("color:");
+//      Serial.println(ct);
+      CRGB color = parseRGB(ct);
+      //Serial.println(color);
+      lamp->fill_color(0, lamp->getNumLeds()-1, color);
+      lamp->render();
+    }
+    //set an individual led
+    else if(set_at > -1) {
+      //set all leds according to semi-colon separated values, rgb values are coma-separated
+      parseSetLED(url.substring(set_at+15));
+      lamp->render();
     }
   }
-  //resp+=animation;
   return resp;
 }
 
+//parse a color from the url
+//format: r,g,b
 CRGB parseRGB(String color) {
-  uint8_t separators[2] = {};
-  
-  for(uint8_t i = 0; i < 3; i++) {
-    uint8_t offset = 0;
-    if(i > 0) {
-      offset = separators[i-1];
-    }
-    separators[i] = color.indexOf("|", offset);
+  int separators[2] = {};
+  uint8_t offset = 0;
+  for(uint8_t i = 0; i < 2; i++) {
+    separators[i] = color.indexOf(",", offset);
+    offset = separators[i]+1;
+//    Serial.print("Separator at: ");
+//    Serial.println(separators[i]);
   }
   if(separators[0] && separators[1]) {
+//    Serial.print("parsed: ");
+//    Serial.println(color.substring(0, separators[0]).toInt());
+//    //color.substring(separators[0]+1, separators[1]).toInt(), color.substring(separators[1]+1).toInt()
+//    Serial.println(color.substring(separators[0]+1, separators[1]).toInt());
+//    Serial.println(color.substring(separators[1]+1));
     return CRGB(color.substring(0, separators[0]).toInt(), color.substring(separators[0]+1, separators[1]).toInt(), color.substring(separators[1]+1).toInt());
   }
   else{
     //return black
     return CRGB(0, 0, 0);
   }
-} 
+}
+
+//parse a single led value from url
+//format: <led#>,r,g,b
+void parseSetLED(String input) {
+  uint8_t leds = lamp->getNumLeds() - 1;
+  uint8_t offset = 0;
+  offset = input.indexOf(",");
+  if(offset > -1) {
+    lamp->setLed(input.substring(0, offset).toInt(), parseRGB(input.substring(offset+1)));
+  }
+}
