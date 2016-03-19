@@ -1,14 +1,16 @@
 #include "Fire.h"
 #include "FastLED.h"
 
-Fire::Fire(Lamp* thelamp) : iLampAnimation(thelamp) {}
+Fire::Fire(Lamp* thelamp) : iLampAnimation(thelamp) {
+  int num_leds = lamp->getNumLeds();
+  // Array of temperature readings at each simulation cell
+  byte heat[num_leds];
+}
 
 int Fire::itterate()
 {
 	random16_add_entropy( random());
 	int num_leds = lamp->getNumLeds();
-	// Array of temperature readings at each simulation cell
-	byte heat[num_leds];
 
 	// Step 1.  Cool down every cell a little
 	for( int i = 0; i < num_leds; i++) {
@@ -31,7 +33,7 @@ int Fire::itterate()
 		lamp->setLed(j, HeatColor(heat[j]));
 	}
 	lamp->render();
-	int base_delay = 10000;
+	int base_delay = 1000;
 	return base_delay / fps;
 }
 

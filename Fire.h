@@ -8,6 +8,7 @@ class Fire : public iLampAnimation
 		int itterate();
 		void reset();
 	protected:
+    byte heat[100];
 		uint8_t fps = 60;
 		// COOLING: How much does the air cool as it rises?
 		// Less cooling = taller flames.  More cooling = shorter flames.
