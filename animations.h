@@ -7,5 +7,6 @@
 #include "PancakeSort.h"
 #include "Gradient1.h"
 #include "Gradient2.h"
+#include "lmfao.h"
 
 #endif // ANIMATIONS_H

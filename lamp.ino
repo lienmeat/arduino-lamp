@@ -113,8 +113,9 @@ void setAnimation(uint8_t whichanimation) {
       break;
     case 99:
       //default case re-sets the animation to first, re-runs
-      ta = new iLampAnimation(lamp);
-      white();
+//      ta = new iLampAnimation(lamp);
+//      white();
+        ta = new LMFAO(lamp);
       break;
     case 253:
       ta = new PancakeSort(lamp);
